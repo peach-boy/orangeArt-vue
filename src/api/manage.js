@@ -6,7 +6,8 @@ const api = {
   service: '/service',
   permission: '/permission',
   permissionNoPager: '/permission/no-pager',
-  orgTree: '/org/tree'
+  orgTree: '/org/tree',
+  student: 'http://127.0.0.1:8080/student/list'
 }
 
 export default api
@@ -66,5 +67,13 @@ export function saveSub (sub) {
     url: '/sub',
     method: sub.id === 0 ? 'post' : 'put',
     data: sub
+  })
+}
+
+export function getStudentList (parameter) {
+  return request({
+    url: api.student,
+    method: 'get',
+    params: parameter
   })
 }
