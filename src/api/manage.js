@@ -7,7 +7,9 @@ const api = {
   permission: '/permission',
   permissionNoPager: '/permission/no-pager',
   orgTree: '/org/tree',
-  student: 'http://127.0.0.1:8080/student/list'
+  studentFind: 'http://127.0.0.1:8080/student/find',
+  studentCreate: 'http://127.0.0.1:8080/student/create'
+
 }
 
 export default api
@@ -72,8 +74,16 @@ export function saveSub (sub) {
 
 export function getStudentList (parameter) {
   return request({
-    url: api.student,
+    url: api.studentFind,
     method: 'get',
+    params: parameter
+  })
+}
+
+export function createStudent (parameter) {
+  return request({
+    url: api.studentCreate,
+    method: 'post',
     params: parameter
   })
 }

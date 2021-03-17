@@ -4,12 +4,12 @@
       <div class="table-page-search-wrapper">
         <a-form layout="inline">
           <a-row :gutter="48">
-            <a-col :md="8" :sm="24">
+            <a-col :md="4" :sm="24">
               <a-form-item label="学员姓名">
                 <a-input v-model="queryParam.name" placeholder=""/>
               </a-form-item>
             </a-col>
-            <a-col :md="8" :sm="24">
+            <a-col :md="4" :sm="24">
               <a-form-item label="学员状态">
                 <a-select v-model="queryParam.status" placeholder="请选择" default-value="0">
                   <a-select-option value="0">全部</a-select-option>
@@ -18,13 +18,6 @@
                 </a-select>
               </a-form-item>
             </a-col>
-            <template>
-              <a-col :md="8" :sm="24">
-                <a-form-item label="剩余课程次数">
-                  <a-input-number v-model="queryParam.callNo" style="width: 100%"/>
-                </a-form-item>
-              </a-col>
-            </template>
             <a-col :md="8 || 24" :sm="24">
               <span class="table-page-search-submitButtons" :style="{ float: 'right', overflow: 'hidden' } || {} ">
                 <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
@@ -77,16 +70,6 @@
           </template>
         </span>
       </s-table>
-
-      <create-form
-        ref="createModal"
-        :visible="visible"
-        :loading="confirmLoading"
-        :model="mdl"
-        @cancel="handleCancel"
-        @ok="handleOk"
-      />
-      <step-by-step-modal ref="modal" @ok="handleOk"/>
     </a-card>
   </page-header-wrapper>
 </template>
@@ -95,9 +78,6 @@
   import moment from 'moment'
   import { STable, Ellipsis } from '@/components'
   import { getRoleList, getStudentList } from '@/api/manage'
-
-  import StepByStepModal from '../list/modules/StepByStepModal'
-  import CreateForm from '../list/modules/CreateForm'
 
   const columns = [
     {
@@ -157,9 +137,7 @@
     name: 'list',
     components: {
       STable,
-      Ellipsis,
-      CreateForm,
-      StepByStepModal
+      Ellipsis
     },
     data () {
       this.columns = columns
@@ -205,8 +183,7 @@
     },
     methods: {
       handleAdd () {
-        this.mdl = null
-        this.visible = true
+        this.$router.push('/student/create')
       },
       handleEdit (record) {
         this.visible = true

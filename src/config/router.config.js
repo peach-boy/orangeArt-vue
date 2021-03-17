@@ -51,10 +51,16 @@ export const asyncRouterMap = [
         meta: { title: 'menu.student', icon: 'form' },
         children: [
           {
-            path: '/form/list',
+            path: '/student/list',
             name: 'list',
             component: () => import('@/views/student/list'),
             meta: { title: 'menu.student.list', keepAlive: true }
+          },
+          {
+            path: '/student/create',
+            name: 'create',
+            component: () => import('@/views/student/create'),
+            meta: { title: 'menu.student.create', keepAlive: true }
           }
         ]
       },

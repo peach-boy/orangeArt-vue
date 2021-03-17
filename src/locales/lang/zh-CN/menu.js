@@ -37,5 +37,7 @@ export default {
     'menu.account.trigger': '触发报错',
     'menu.account.logout': '退出登录',
     'menu.student': '学员管理',
-    'menu.student.list': '学员查询'
+    'menu.student.list': '查询学员',
+    'menu.student.create': '新建学员'
+
 }
