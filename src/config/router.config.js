@@ -64,6 +64,90 @@ export const asyncRouterMap = [
           }
         ]
       },
+      // class
+      {
+        path: '/class',
+        redirect: '/class/list',
+        component: RouteView,
+        meta: { title: 'menu.class', icon: 'form' },
+        children: [
+          {
+            path: '/class/list',
+            name: 'list',
+            component: () => import('@/views/class/list'),
+            meta: { title: 'menu.class.list', keepAlive: true }
+          },
+          {
+            path: '/class/create',
+            name: 'create',
+            component: () => import('@/views/class/create'),
+            meta: { title: 'menu.class.create', keepAlive: true }
+          }
+        ]
+      },
+      // lesson
+      {
+        path: '/lesson',
+        redirect: '/lesson/list',
+        component: RouteView,
+        meta: { title: 'menu.lesson', icon: 'form' },
+        children: [
+          {
+            path: '/lesson/list',
+            name: 'list',
+            component: () => import('@/views/lesson/list'),
+            meta: { title: 'menu.lesson.list', keepAlive: true }
+          },
+          {
+            path: '/lesson/create',
+            name: 'create',
+            component: () => import('@/views/lesson/create'),
+            meta: { title: 'menu.lesson.create', keepAlive: true }
+          }
+        ]
+      },
+      // courseOrder
+      {
+        path: '/courseOrder',
+        redirect: '/courseOrder/list',
+        component: RouteView,
+        meta: { title: 'menu.courseOrder', icon: 'form' },
+        children: [
+          {
+            path: '/courseOrder/list',
+            name: 'list',
+            component: () => import('@/views/courseOrder/list'),
+            meta: { title: 'menu.courseOrder.list', keepAlive: true }
+          },
+          {
+            path: '/courseOrder/create',
+            name: 'create',
+            component: () => import('@/views/courseOrder/create'),
+            meta: { title: 'menu.courseOrder.create', keepAlive: true }
+          }
+        ]
+      },
+      // courseware
+      {
+        path: '/courseware',
+        redirect: '/courseware/list',
+        component: RouteView,
+        meta: { title: 'menu.courseware', icon: 'form' },
+        children: [
+          {
+            path: '/courseware/list',
+            name: 'list',
+            component: () => import('@/views/courseware/list'),
+            meta: { title: 'menu.courseware.list', keepAlive: true }
+          },
+          {
+            path: '/courseware/create',
+            name: 'create',
+            component: () => import('@/views/courseware/create'),
+            meta: { title: 'menu.courseware.create', keepAlive: true }
+          }
+        ]
+      },
       // forms
       {
         path: '/form',

@@ -81,6 +81,7 @@ export function getStudentList (parameter) {
 }
 
 export function createStudent (parameter) {
+  console.log('param: ', parameter)
   return request({
     url: api.studentCreate,
     method: 'post',

@@ -38,6 +38,18 @@ export default {
     'menu.account.logout': '退出登录',
     'menu.student': '学员管理',
     'menu.student.list': '查询学员',
-    'menu.student.create': '新建学员'
+    'menu.student.create': '新建学员',
+    'menu.class': '班级管理',
+    'menu.class.list': '查询班级',
+    'menu.class.create': '新建班级',
+    'menu.lesson': '课时管理',
+    'menu.lesson.list': '查询课时',
+    'menu.lesson.create': '录入课时',
+    'menu.courseOrder': '课程订单管理',
+    'menu.courseOrder.list': '查询课程订单',
+    'menu.courseOrder.create': '新建课程订单',
+    'menu.courseware': '课件管理',
+    'menu.courseware.list': '查询课件',
+    'menu.courseware.create': '新建课件'
 
 }

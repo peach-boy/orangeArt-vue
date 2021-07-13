@@ -5,7 +5,7 @@
         <a-form-item
           :label="$t('学员姓名')"
           :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-          :wrapperCol="{lg: {span: 5}, sm: {span: 17} }">
+          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
           <a-input
             v-decorator="[
               'name',
@@ -47,12 +47,12 @@
               {rules: [{ required: true, message: $t('请输入家庭住址') }]}
             ]"
             name="name"
-             />
+            :placeholder="$t('家庭住址')" />
         </a-form-item>
         <a-form-item
           :label="$t('手机号')"
           :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-          :wrapperCol="{lg: {span: 5}, sm: {span: 17} }">
+          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
           <a-input
             v-decorator="[
               'mobile',
@@ -65,7 +65,7 @@
         <a-form-item
           :label="$t('介绍人')"
           :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-          :wrapperCol="{lg: {span: 5}, sm: {span: 17} }">
+          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
           <a-input
             :placeholder="$t('介绍人')"
             v-decorator="[
@@ -79,7 +79,7 @@
           :wrapperCol="{lg: {span: 10}, sm: {span: 17} }"
           :required="false"
           :help="$t('学员来源渠道')">
-          <a-radio-group v-decorator="['channel', { initialValue: 1 }]">
+          <a-radio-group v-decorator="['渠道', { initialValue: 1 }]">
             <a-radio :value="1">{{ $t('转介绍') }}</a-radio>
             <a-radio :value="2">{{ $t('大众点评') }}</a-radio>
             <a-radio :value="3">{{ $t('其他渠道') }}</a-radio>
@@ -115,6 +115,7 @@ import { createStudent } from '@/api/manage'
   name: 'create',
   data () {
     return {
+      dateFormat: 'YYYY/MM/DD',
       form: this.$form.createForm(this)
     }
   },
