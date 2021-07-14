@@ -25,16 +25,15 @@
           </a-radio-group>
         </a-form-item>
         <a-form-item
-          :label="$t('出生年份')"
+          :label="$t('生日')"
           :labelCol="{lg: {span: 7}, sm: {span: 7}}"
           :wrapperCol="{lg: {span: 5}, sm: {span: 17} }"
           :required="false">
-          <a-month-picker
+          <a-date-picker
             style="width: 100%"
-            showTime
             v-decorator="[
               'birthYear',
-              {rules: [{ required: true, message: '请选择出生年份'}]}
+              {rules: [{ required: true, message: '请选择生日'}]}
             ]" />
         </a-form-item>
         <a-form-item
@@ -93,7 +92,7 @@
             rows="4"
             :placeholder="$t('备注')"
             v-decorator="[
-              'description',
+              'remark',
               {rules: [{ required: false, message: '请输入备注' }]}
             ]" />
         </a-form-item>
@@ -110,6 +109,7 @@
 
 <script>
 import { createStudent } from '@/api/manage'
+import moment from 'moment'
 
   export default {
   name: 'create',
@@ -125,6 +125,8 @@ import { createStudent } from '@/api/manage'
       this.form.validateFields((err, values) => {
         if (!err) {
           console.log('Received values of form: ', values)
+          values.birthYear = moment(values.birthYear).format('YYYY-MM-DD')
+          console.log('birth', values.birthYear)
           createStudent(values)
             .then(res => {
               console.log('loadData resp:', res)
