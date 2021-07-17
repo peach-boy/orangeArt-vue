@@ -38,7 +38,7 @@ export default {
     'menu.account.logout': '退出登录',
     'menu.student': '学员管理',
     'menu.student.list': '查询学员',
-    'menu.student.create': '新建学员',
+    'menu.student.create': '录入新学员',
     'menu.class': '班级管理',
     'menu.class.list': '查询班级',
     'menu.class.create': '新建班级',

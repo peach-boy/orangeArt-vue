@@ -8,7 +8,9 @@ const api = {
   permissionNoPager: '/permission/no-pager',
   orgTree: '/org/tree',
   studentFind: 'http://127.0.0.1:8080/student/find',
-  studentCreate: 'http://127.0.0.1:8080/student/create'
+  studentCreate: 'http://127.0.0.1:8080/student/create',
+  courseOrderFind: 'http://127.0.0.1:8080/course_order/find',
+  courseOrderCreate: 'http://127.0.0.1:8080/course_order/create'
 
 }
 
@@ -80,10 +82,27 @@ export function getStudentList (parameter) {
   })
 }
 
+export function getCourseOrderList (parameter) {
+  return request({
+    url: api.courseOrderFind,
+    method: 'get',
+    params: parameter
+  })
+}
+
 export function createStudent (parameter) {
   console.log('param: ', parameter)
   return request({
     url: api.studentCreate,
+    method: 'post',
+    params: parameter
+  })
+}
+
+export function createCourseOrder (parameter) {
+  console.log('param: ', parameter)
+  return request({
+    url: api.courseOrderCreate,
     method: 'post',
     params: parameter
   })

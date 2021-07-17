@@ -115,13 +115,13 @@ export const asyncRouterMap = [
         children: [
           {
             path: '/courseOrder/list',
-            name: 'list',
+            name: 'courseOrderList',
             component: () => import('@/views/courseOrder/list'),
             meta: { title: 'menu.courseOrder.list', keepAlive: true }
           },
           {
             path: '/courseOrder/create',
-            name: 'create',
+            name: 'createCourseOrder',
             component: () => import('@/views/courseOrder/create'),
             meta: { title: 'menu.courseOrder.create', keepAlive: true }
           }

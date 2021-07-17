@@ -6,17 +6,7 @@
           <a-row :gutter="48">
             <a-col :md="5" :sm="24">
               <a-form-item label="学员姓名">
-                <a-input v-model="queryParam.name" placeholder=""/>
-              </a-form-item>
-            </a-col>
-            <a-col :md="5" :sm="24">
-              <a-form-item label="学员状态">
-                <a-select v-model="queryParam.status" placeholder="请选择" default-value="0">
-                  <a-select-option value="">全部</a-select-option>
-                  <a-select-option value="1">未开始</a-select-option>
-                  <a-select-option value="2">进行中</a-select-option>
-                  <a-select-option value="3">已结课</a-select-option>
-                </a-select>
+                <a-input v-model="queryParam.studentName" placeholder=""/>
               </a-form-item>
             </a-col>
             <a-col :md="8 || 24" :sm="24">
@@ -56,9 +46,6 @@
         <span slot="serial" slot-scope="text, record, index">
           {{ index + 1 }}
         </span>
-        <span slot="status" slot-scope="text">
-          <a-badge :status="text | statusTypeFilter" :text="text | statusFilter" />
-        </span>
         <span slot="description" slot-scope="text">
           <ellipsis :length="4" tooltip>{{ text }}</ellipsis>
         </span>
@@ -66,8 +53,6 @@
         <span slot="action" slot-scope="text, record">
           <template>
             <a @click="handleEdit(record)">编辑</a>
-            <a-divider type="vertical" />
-            <a @click="handleSub(record)">锁定</a>
           </template>
         </span>
       </s-table>
@@ -78,35 +63,34 @@
 <script>
   import moment from 'moment'
   import { STable, Ellipsis } from '@/components'
-  import { getRoleList, getStudentList } from '@/api/manage'
+  import { getRoleList, getCourseOrderList } from '@/api/manage'
 
   const columns = [
     {
-      title: '学员编号',
-      dataIndex: 'id'
-    },
-    {
       title: '学员姓名',
-      dataIndex: 'name'
+      dataIndex: 'studentName'
     },
     {
-      title: '已消课时',
-      dataIndex: 'usedQuantity',
+      title: '总金额',
+      dataIndex: 'totalAmt'
+    },
+    {
+      title: '总课时',
+      dataIndex: 'totalQuantity',
       sorter: true,
       needTotal: true,
       customRender: (text) => text + ' 课时'
     },
     {
       title: '剩余课时',
-      dataIndex: 'unusedQuantity',
+      dataIndex: 'remainQuantity',
       sorter: true,
       needTotal: true,
       customRender: (text) => text + ' 课时'
     },
     {
-      title: '状态',
-      dataIndex: 'status',
-      scopedSlots: { customRender: 'status' }
+      title: '下单时间',
+      dataIndex: 'orderTime'
     }
   ]
 
@@ -144,7 +128,7 @@
         loadData: parameter => {
           const requestParameters = Object.assign({}, parameter, this.queryParam)
           console.log('loadData request parameters:', requestParameters)
-          return getStudentList(requestParameters)
+          return getCourseOrderList(requestParameters)
             .then(res => {
               console.log('loadData resp:', res.data)
               return res.data
@@ -175,7 +159,7 @@
     },
     methods: {
       handleAdd () {
-        this.$router.push('/student/create')
+        this.$router.push('/courseOrder/create')
       },
       handleEdit (record) {
         this.visible = true
@@ -230,13 +214,6 @@
 
         const form = this.$refs.createModal.form
         form.resetFields() // 清理表单数据（可不做）
-      },
-      handleSub (record) {
-        if (record.status !== 0) {
-          this.$message.info(`${record.no} 订阅成功`)
-        } else {
-          this.$message.error(`${record.no} 订阅失败，规则已关闭`)
-        }
       },
       onSelectChange (selectedRowKeys, selectedRows) {
         this.selectedRowKeys = selectedRowKeys

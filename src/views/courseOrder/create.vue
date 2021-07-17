@@ -5,84 +5,49 @@
         <a-form-item
           :label="$t('学员姓名')"
           :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
+          :wrapperCol="{lg: {span: 5}, sm: {span: 17} }">
           <a-input
             v-decorator="[
-              'name',
+              'studentName',
               {rules: [{ required: true, message: $t('请输入姓名') }]}
             ]"
             name="name"
             :placeholder="$t('学员姓名')" />
         </a-form-item>
         <a-form-item
-          :label="$t('性别')"
+          :label="$t('总金额')"
           :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }"
-          :required="false">
-          <a-radio-group v-decorator="['gender', { initialValue: 1 }]">
-            <a-radio :value="1">{{ $t('男') }}</a-radio>
-            <a-radio :value="2">{{ $t('女') }}</a-radio>
-          </a-radio-group>
-        </a-form-item>
-        <a-form-item
-          :label="$t('出生年份')"
-          :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-          :wrapperCol="{lg: {span: 5}, sm: {span: 17} }"
-          :required="false">
-          <a-month-picker
-            style="width: 100%"
-            showTime
-            v-decorator="[
-              'birthYear',
-              {rules: [{ required: true, message: '请选择出生年份'}]}
-            ]" />
-        </a-form-item>
-        <a-form-item
-          :label="$t('家庭住址')"
-          :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
+          :wrapperCol="{lg: {span: 5}, sm: {span: 17} }">
           <a-input
             v-decorator="[
-              'address',
-              {rules: [{ required: true, message: $t('请输入家庭住址') }]}
+              'totalAmt',
+              {rules: [{ required: true, message: $t('请输入总金额') }]}
             ]"
             name="name"
-            :placeholder="$t('家庭住址')" />
+            :placeholder="$t('总金额')" />
         </a-form-item>
         <a-form-item
-          :label="$t('手机号')"
+          :label="$t('课程总数')"
           :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
+          :wrapperCol="{lg: {span: 5}, sm: {span: 17} }">
           <a-input
             v-decorator="[
-              'mobile',
-              {rules: [{ required: true, message: $t('请输入手机号') }]}
+              'totalQuantity',
+              {rules: [{ required: true, message: $t('请输入课程总数') }]}
             ]"
             name="name"
-            :placeholder="$t('手机号')" />
-        </a-form-item>
-
-        <a-form-item
-          :label="$t('介绍人')"
-          :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
-          <a-input
-            :placeholder="$t('介绍人')"
-            v-decorator="[
-              'customer',
-              {rules: [{ required: true, message: $t('请输入介绍人') }]}
-            ]" />
+            :placeholder="$t('课程总数')" />
         </a-form-item>
         <a-form-item
-          :label="$t('渠道')"
+          :label="$t('支付渠道')"
           :labelCol="{lg: {span: 7}, sm: {span: 7}}"
           :wrapperCol="{lg: {span: 10}, sm: {span: 17} }"
           :required="false"
-          :help="$t('学员来源渠道')">
-          <a-radio-group v-decorator="['渠道', { initialValue: 1 }]">
-            <a-radio :value="1">{{ $t('转介绍') }}</a-radio>
-            <a-radio :value="2">{{ $t('大众点评') }}</a-radio>
-            <a-radio :value="3">{{ $t('其他渠道') }}</a-radio>
+          :help="$t('支付渠道')">
+          <a-radio-group v-decorator="['payChannel', { initialValue: 1 }]">
+            <a-radio :value="1">{{ $t('现金') }}</a-radio>
+            <a-radio :value="2">{{ $t('支付宝') }}</a-radio>
+            <a-radio :value="3">{{ $t('微信') }}</a-radio>
           </a-radio-group>
         </a-form-item>
         <a-form-item
@@ -109,13 +74,12 @@
 </template>
 
 <script>
-import { createStudent } from '@/api/manage'
+import { createCourseOrder } from '@/api/manage'
 
   export default {
   name: 'create',
   data () {
     return {
-      dateFormat: 'YYYY/MM/DD',
       form: this.$form.createForm(this)
     }
   },
@@ -126,11 +90,11 @@ import { createStudent } from '@/api/manage'
       this.form.validateFields((err, values) => {
         if (!err) {
           console.log('Received values of form: ', values)
-          createStudent(values)
+          createCourseOrder(values)
             .then(res => {
               console.log('loadData resp:', res)
               if (res.data === true) {
-                this.$router.push('/student/list')
+                this.$router.push('/courseOrder/list')
               }
             })
         }
