@@ -1,89 +1,66 @@
 <template>
-  <page-header-wrapper :title="false" :content="$t('录入学员信息')">
+  <page-header-wrapper :title="false" :content="$t('录入课时')">
     <a-card :body-style="{padding: '24px 32px'}" :bordered="false">
       <a-form @submit="handleSubmit" :form="form">
         <a-form-item
           :label="$t('学员姓名')"
           :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
+          :wrapperCol="{lg: {span: 5}, sm: {span: 17} }">
           <a-input
             v-decorator="[
-              'name',
+              'studentName',
               {rules: [{ required: true, message: $t('请输入姓名') }]}
             ]"
             name="name"
             :placeholder="$t('学员姓名')" />
         </a-form-item>
         <a-form-item
-          :label="$t('性别')"
+          :label="$t('课时类型')"
           :labelCol="{lg: {span: 7}, sm: {span: 7}}"
           :wrapperCol="{lg: {span: 10}, sm: {span: 17} }"
           :required="false">
-          <a-radio-group v-decorator="['gender', { initialValue: 1 }]">
-            <a-radio :value="1">{{ $t('男') }}</a-radio>
-            <a-radio :value="2">{{ $t('女') }}</a-radio>
+          <a-radio-group v-decorator="['type', { initialValue: 1 }]">
+            <a-radio :value="1">{{ $t('正常排课') }}</a-radio>
+            <a-radio :value="2">{{ $t('临时加课') }}</a-radio>
           </a-radio-group>
         </a-form-item>
         <a-form-item
-          :label="$t('出生年份')"
+          label="上课时间"
           :labelCol="{lg: {span: 7}, sm: {span: 7}}"
           :wrapperCol="{lg: {span: 5}, sm: {span: 17} }"
           :required="false">
-          <a-month-picker
+          <a-date-picker
             style="width: 100%"
             showTime
             v-decorator="[
-              'birthYear',
-              {rules: [{ required: true, message: '请选择出生年份'}]}
+              'classTime',
+              {rules: [{ required: true, message: '请选择上课时间'}]}
             ]" />
         </a-form-item>
         <a-form-item
-          :label="$t('家庭住址')"
-          :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
-          <a-input
-            v-decorator="[
-              'address',
-              {rules: [{ required: true, message: $t('请输入家庭住址') }]}
-            ]"
-            name="name"
-            :placeholder="$t('家庭住址')" />
+          label="班级"
+         :labelCol="{lg: {span: 7}, sm: {span: 7}}"
+         :wrapperCol="{lg: {span: 8}, sm: {span: 17} }"
+         :required="false">
+          <template>
+            <a-cascader
+              :field-names="{ label: 'name', value: 'code', children: 'items' }"
+              :options="options"
+              placeholder="请选择班级"
+              @change="onChange"
+            />
+          </template>
         </a-form-item>
         <a-form-item
-          :label="$t('手机号')"
+          label="课件"
           :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
-          <a-input
-            v-decorator="[
-              'mobile',
-              {rules: [{ required: true, message: $t('请输入手机号') }]}
-            ]"
-            name="name"
-            :placeholder="$t('手机号')" />
-        </a-form-item>
-
-        <a-form-item
-          :label="$t('介绍人')"
-          :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
-          <a-input
-            :placeholder="$t('介绍人')"
-            v-decorator="[
-              'customer',
-              {rules: [{ required: true, message: $t('请输入介绍人') }]}
-            ]" />
-        </a-form-item>
-        <a-form-item
-          :label="$t('渠道')"
-          :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }"
-          :required="false"
-          :help="$t('学员来源渠道')">
-          <a-radio-group v-decorator="['渠道', { initialValue: 1 }]">
-            <a-radio :value="1">{{ $t('转介绍') }}</a-radio>
-            <a-radio :value="2">{{ $t('大众点评') }}</a-radio>
-            <a-radio :value="3">{{ $t('其他渠道') }}</a-radio>
-          </a-radio-group>
+          :wrapperCol="{lg: {span: 5}, sm: {span: 17} }"
+          :required="false">
+          <a-select placeholder="请选择课件" v-decorator="[ 'coursewareId', {rules: [{ required: true, message: '请选择课件'}]} ]">
+            <a-select-option value="1">月饼</a-select-option>
+            <a-select-option value="2">西瓜</a-select-option>
+            <a-select-option value="3">葡萄</a-select-option>
+          </a-select>
         </a-form-item>
         <a-form-item
           :label="$t('备注')"
@@ -109,32 +86,54 @@
 </template>
 
 <script>
-import { createStudent } from '@/api/manage'
+import { createLesson, getAllClass } from '@/api/manage'
+import moment from 'moment'
 
   export default {
   name: 'create',
   data () {
     return {
-      dateFormat: 'YYYY/MM/DD',
+      options: [],
+      selectedClassId: 0,
       form: this.$form.createForm(this)
     }
   },
-  methods: {
+  created () {
+    this.getAll()
+  },
+    methods: {
     // handler
     handleSubmit (e) {
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
           console.log('Received values of form: ', values)
-          createStudent(values)
+          values.classTime = moment(values.classTime).format('yyyy-MM-DD hh:mm:ss')
+          values.classId = this.selectedClassId
+          console.log('classTime', values.classTime)
+          createLesson(values)
             .then(res => {
-              console.log('loadData resp:', res)
+              console.log('s resp:', res)
               if (res.data === true) {
-                this.$router.push('/student/list')
+                this.$router.push('/lesson/list')
               }
             })
         }
       })
+    },
+    getAll () {
+      getAllClass()
+        .then(res => {
+          console.log('loadData resp:', res)
+          if (res.msg === 'ok') {
+            this.options = res.data
+            console.log('options:', this.options)
+          }
+        })
+    },
+    onChange (value) {
+      this.selectedClassId = value[2]
+      console.log('onChange', this.selectedClassId)
     }
   }
 }

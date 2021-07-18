@@ -10,7 +10,12 @@ const api = {
   studentFind: 'http://127.0.0.1:8080/student/find',
   studentCreate: 'http://127.0.0.1:8080/student/create',
   courseOrderFind: 'http://127.0.0.1:8080/course_order/find',
-  courseOrderCreate: 'http://127.0.0.1:8080/course_order/create'
+  courseOrderCreate: 'http://127.0.0.1:8080/course_order/create',
+  lessonFind: 'http://127.0.0.1:8080/lesson/find',
+  lessonCreate: 'http://127.0.0.1:8080/lesson/create',
+  classFind: 'http://127.0.0.1:8080/class/find',
+  classCreate: 'http://127.0.0.1:8080/class/create',
+  getAllClass: 'http://127.0.0.1:8080/class/getAll'
 
 }
 
@@ -90,6 +95,30 @@ export function getCourseOrderList (parameter) {
   })
 }
 
+export function getLessonList (parameter) {
+  return request({
+    url: api.lessonFind,
+    method: 'get',
+    params: parameter
+  })
+}
+
+export function getClassList (parameter) {
+  return request({
+    url: api.classFind,
+    method: 'get',
+    params: parameter
+  })
+}
+
+export function getAllClass (parameter) {
+  return request({
+    url: api.getAllClass,
+    method: 'get',
+    params: parameter
+  })
+}
+
 export function createStudent (parameter) {
   console.log('param: ', parameter)
   return request({
@@ -103,6 +132,24 @@ export function createCourseOrder (parameter) {
   console.log('param: ', parameter)
   return request({
     url: api.courseOrderCreate,
+    method: 'post',
+    params: parameter
+  })
+}
+
+export function createLesson (parameter) {
+  console.log('param: ', parameter)
+  return request({
+    url: api.lessonCreate,
+    method: 'post',
+    params: parameter
+  })
+}
+
+export function createClass (parameter) {
+  console.log('param: ', parameter)
+  return request({
+    url: api.classCreate,
     method: 'post',
     params: parameter
   })

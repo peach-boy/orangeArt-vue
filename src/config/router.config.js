@@ -73,13 +73,13 @@ export const asyncRouterMap = [
         children: [
           {
             path: '/class/list',
-            name: 'list',
+            name: 'classList',
             component: () => import('@/views/class/list'),
             meta: { title: 'menu.class.list', keepAlive: true }
           },
           {
             path: '/class/create',
-            name: 'create',
+            name: 'createClass',
             component: () => import('@/views/class/create'),
             meta: { title: 'menu.class.create', keepAlive: true }
           }
@@ -94,13 +94,13 @@ export const asyncRouterMap = [
         children: [
           {
             path: '/lesson/list',
-            name: 'list',
+            name: 'lessonList',
             component: () => import('@/views/lesson/list'),
             meta: { title: 'menu.lesson.list', keepAlive: true }
           },
           {
             path: '/lesson/create',
-            name: 'create',
+            name: 'createLesson',
             component: () => import('@/views/lesson/create'),
             meta: { title: 'menu.lesson.create', keepAlive: true }
           }
@@ -136,13 +136,13 @@ export const asyncRouterMap = [
         children: [
           {
             path: '/courseware/list',
-            name: 'list',
+            name: 'coursewareList',
             component: () => import('@/views/courseware/list'),
             meta: { title: 'menu.courseware.list', keepAlive: true }
           },
           {
             path: '/courseware/create',
-            name: 'create',
+            name: 'createCourseware',
             component: () => import('@/views/courseware/create'),
             meta: { title: 'menu.courseware.create', keepAlive: true }
           }

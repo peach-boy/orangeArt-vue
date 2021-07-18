@@ -78,7 +78,7 @@
 <script>
   import moment from 'moment'
   import { STable, Ellipsis } from '@/components'
-  import { getRoleList, getStudentList } from '@/api/manage'
+  import { getRoleList, getLessonList } from '@/api/manage'
 
   const columns = [
     {
@@ -87,26 +87,19 @@
     },
     {
       title: '学员姓名',
-      dataIndex: 'name'
+      dataIndex: 'studentName'
     },
     {
-      title: '已消课时',
-      dataIndex: 'usedQuantity',
-      sorter: true,
-      needTotal: true,
-      customRender: (text) => text + ' 课时'
+      title: '班级名称',
+      dataIndex: 'className'
     },
     {
-      title: '剩余课时',
-      dataIndex: 'unusedQuantity',
-      sorter: true,
-      needTotal: true,
-      customRender: (text) => text + ' 课时'
+      title: '课件名称',
+      dataIndex: 'coursewareName'
     },
     {
-      title: '状态',
-      dataIndex: 'status',
-      scopedSlots: { customRender: 'status' }
+      title: '上课时间',
+      dataIndex: 'classTime'
     }
   ]
 
@@ -144,7 +137,7 @@
         loadData: parameter => {
           const requestParameters = Object.assign({}, parameter, this.queryParam)
           console.log('loadData request parameters:', requestParameters)
-          return getStudentList(requestParameters)
+          return getLessonList(requestParameters)
             .then(res => {
               console.log('loadData resp:', res.data)
               return res.data
@@ -175,7 +168,7 @@
     },
     methods: {
       handleAdd () {
-        this.$router.push('/student/create')
+        this.$router.push('/lesson/create')
       },
       handleEdit (record) {
         this.visible = true

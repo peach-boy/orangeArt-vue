@@ -78,35 +78,28 @@
 <script>
   import moment from 'moment'
   import { STable, Ellipsis } from '@/components'
-  import { getRoleList, getStudentList } from '@/api/manage'
+  import { getRoleList, getClassList } from '@/api/manage'
 
   const columns = [
     {
-      title: '学员编号',
-      dataIndex: 'id'
+      title: '班级编号',
+      dataIndex: 'classId'
     },
     {
-      title: '学员姓名',
-      dataIndex: 'name'
+      title: '星期',
+      dataIndex: 'weekDay'
     },
     {
-      title: '已消课时',
-      dataIndex: 'usedQuantity',
-      sorter: true,
-      needTotal: true,
-      customRender: (text) => text + ' 课时'
+      title: '时间',
+      dataIndex: 'classTime'
     },
     {
-      title: '剩余课时',
-      dataIndex: 'unusedQuantity',
-      sorter: true,
-      needTotal: true,
-      customRender: (text) => text + ' 课时'
+      title: '科目',
+      dataIndex: 'subjectName'
     },
     {
-      title: '状态',
-      dataIndex: 'status',
-      scopedSlots: { customRender: 'status' }
+      title: '班级类型',
+      dataIndex: 'typeName'
     }
   ]
 
@@ -144,7 +137,7 @@
         loadData: parameter => {
           const requestParameters = Object.assign({}, parameter, this.queryParam)
           console.log('loadData request parameters:', requestParameters)
-          return getStudentList(requestParameters)
+          return getClassList(requestParameters)
             .then(res => {
               console.log('loadData resp:', res.data)
               return res.data
@@ -175,7 +168,7 @@
     },
     methods: {
       handleAdd () {
-        this.$router.push('/student/create')
+        this.$router.push('/class/create')
       },
       handleEdit (record) {
         this.visible = true

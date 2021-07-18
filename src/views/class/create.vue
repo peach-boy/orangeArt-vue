@@ -1,88 +1,55 @@
 <template>
-  <page-header-wrapper :title="false" :content="$t('录入学员信息')">
+  <page-header-wrapper :title="false" :content="$t('新增班级啊')">
     <a-card :body-style="{padding: '24px 32px'}" :bordered="false">
       <a-form @submit="handleSubmit" :form="form">
         <a-form-item
-          :label="$t('学员姓名')"
-          :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
-          <a-input
-            v-decorator="[
-              'name',
-              {rules: [{ required: true, message: $t('请输入姓名') }]}
-            ]"
-            name="name"
-            :placeholder="$t('学员姓名')" />
-        </a-form-item>
-        <a-form-item
-          :label="$t('性别')"
-          :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }"
-          :required="false">
-          <a-radio-group v-decorator="['gender', { initialValue: 1 }]">
-            <a-radio :value="1">{{ $t('男') }}</a-radio>
-            <a-radio :value="2">{{ $t('女') }}</a-radio>
-          </a-radio-group>
-        </a-form-item>
-        <a-form-item
-          :label="$t('出生年份')"
+          label="星期"
           :labelCol="{lg: {span: 7}, sm: {span: 7}}"
           :wrapperCol="{lg: {span: 5}, sm: {span: 17} }"
           :required="false">
-          <a-month-picker
-            style="width: 100%"
-            showTime
-            v-decorator="[
-              'birthYear',
-              {rules: [{ required: true, message: '请选择出生年份'}]}
-            ]" />
+          <a-select placeholder="请选择星期" v-decorator="[ 'weekDay', {rules: [{ required: true, message: '请选择星期'}]} ]">
+            <a-select-option value="1">周一</a-select-option>
+            <a-select-option value="2">周二</a-select-option>
+            <a-select-option value="3">周三</a-select-option>
+            <a-select-option value="4">周四</a-select-option>
+            <a-select-option value="5">周五</a-select-option>
+            <a-select-option value="6">周六</a-select-option>
+            <a-select-option value="7">周日</a-select-option>
+          </a-select>
         </a-form-item>
         <a-form-item
-          :label="$t('家庭住址')"
+          :label="$t('开始时间')"
           :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
-          <a-input
-            v-decorator="[
-              'address',
-              {rules: [{ required: true, message: $t('请输入家庭住址') }]}
-            ]"
-            name="name"
-            :placeholder="$t('家庭住址')" />
+          :wrapperCol="{lg: {span: 5}, sm: {span: 17} }"
+          :required="false">
+          <a-time-picker :default-open-value="moment('00:00:00', 'HH:mm:ss')" @change="getBeginTime"/>
         </a-form-item>
         <a-form-item
-          :label="$t('手机号')"
+          :label="$t('结束时间')"
           :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
-          <a-input
-            v-decorator="[
-              'mobile',
-              {rules: [{ required: true, message: $t('请输入手机号') }]}
-            ]"
-            name="name"
-            :placeholder="$t('手机号')" />
-        </a-form-item>
-
-        <a-form-item
-          :label="$t('介绍人')"
-          :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
-          <a-input
-            :placeholder="$t('介绍人')"
-            v-decorator="[
-              'customer',
-              {rules: [{ required: true, message: $t('请输入介绍人') }]}
-            ]" />
+          :wrapperCol="{lg: {span: 5}, sm: {span: 17} }"
+          :required="false">
+          <a-time-picker :default-open-value="moment('00:00:00', 'HH:mm:ss')" @change="getEndTime"/>
         </a-form-item>
         <a-form-item
-          :label="$t('渠道')"
+          :label="$t('科目')"
           :labelCol="{lg: {span: 7}, sm: {span: 7}}"
           :wrapperCol="{lg: {span: 10}, sm: {span: 17} }"
-          :required="false"
-          :help="$t('学员来源渠道')">
-          <a-radio-group v-decorator="['渠道', { initialValue: 1 }]">
-            <a-radio :value="1">{{ $t('转介绍') }}</a-radio>
-            <a-radio :value="2">{{ $t('大众点评') }}</a-radio>
-            <a-radio :value="3">{{ $t('其他渠道') }}</a-radio>
+          :required="false">
+          <a-radio-group v-decorator="['subjectId', { initialValue: 1 }]">
+            <a-radio :value="1">{{ $t('素描') }}</a-radio>
+            <a-radio :value="2">{{ $t('线描') }}</a-radio>
+          </a-radio-group>
+        </a-form-item>
+        <a-form-item
+          :label="$t('班级类型')"
+          :labelCol="{lg: {span: 7}, sm: {span: 7}}"
+          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }"
+          :required="false">
+          <a-radio-group v-decorator="['type', { initialValue: 1 }]">
+            <a-radio :value="1">{{ $t('平日班级') }}</a-radio>
+            <a-radio :value="2">{{ $t('暑假班级') }}</a-radio>
+            <a-radio :value="3">{{ $t('寒假班级') }}</a-radio>
           </a-radio-group>
         </a-form-item>
         <a-form-item
@@ -109,28 +76,38 @@
 </template>
 
 <script>
-import { createStudent } from '@/api/manage'
+import { createClass } from '@/api/manage'
+import moment from 'moment'
 
   export default {
   name: 'create',
   data () {
     return {
-      dateFormat: 'YYYY/MM/DD',
-      form: this.$form.createForm(this)
+      moment,
+      form: this.$form.createForm(this),
+      beginTime: '',
+      endTime: ''
     }
   },
   methods: {
-    // handler
+    getBeginTime (time, timeString) {
+      this.beginTime = timeString
+    },
+    getEndTime (time, timeString) {
+      this.endTime = timeString
+    },
     handleSubmit (e) {
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
+          values.beginTime = this.beginTime
+          values.endTime = this.endTime
           console.log('Received values of form: ', values)
-          createStudent(values)
+          createClass(values)
             .then(res => {
               console.log('loadData resp:', res)
               if (res.data === true) {
-                this.$router.push('/student/list')
+                this.$router.push('/class/list')
               }
             })
         }
