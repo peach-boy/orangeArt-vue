@@ -6,17 +6,23 @@
           <a-row :gutter="48">
             <a-col :md="5" :sm="24">
               <a-form-item label="学员姓名">
-                <a-input v-model="queryParam.name" placeholder=""/>
+                <a-input v-model="queryParam.studentName" placeholder=""/>
               </a-form-item>
             </a-col>
             <a-col :md="5" :sm="24">
-              <a-form-item label="学员状态">
-                <a-select v-model="queryParam.status" placeholder="请选择" default-value="0">
-                  <a-select-option value="">全部</a-select-option>
-                  <a-select-option value="1">未开始</a-select-option>
-                  <a-select-option value="2">进行中</a-select-option>
-                  <a-select-option value="3">已结课</a-select-option>
+              <a-form-item label="课件">
+                <a-select placeholder="请选择课件" v-model="queryParam.coursewareId">
+                  <a-select-option v-for="d in coursewares" :key="d.id">
+                    {{ d.coursewareName }}
+                  </a-select-option>
                 </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :md="10" :sm="24">
+              <a-form-item label="日期">
+                <a-range-picker
+                  style="width: 100%"
+                  @change="onChange"  />
               </a-form-item>
             </a-col>
             <a-col :md="8 || 24" :sm="24">
@@ -78,7 +84,7 @@
 <script>
   import moment from 'moment'
   import { STable, Ellipsis } from '@/components'
-  import { getRoleList, getLessonList } from '@/api/manage'
+  import { getRoleList, getLessonList, getAllCourseware } from '@/api/manage'
 
   const columns = [
     {
@@ -144,7 +150,8 @@
             })
         },
         selectedRowKeys: [],
-        selectedRows: []
+        selectedRows: [],
+        coursewares: []
       }
     },
     filters: {
@@ -157,6 +164,14 @@
     },
     created () {
       getRoleList({ t: new Date() })
+      getAllCourseware()
+        .then(res => {
+          console.log('loadData resp:', res)
+          if (res.msg === 'ok') {
+            this.coursewares = res.data
+            console.log('courewares:', this.coursewares)
+          }
+        })
     },
     computed: {
       rowSelection () {
@@ -239,6 +254,10 @@
         this.queryParam = {
           date: moment(new Date())
         }
+      },
+      onChange (date, dateString) {
+        this.queryParam.timeStart = dateString[0]
+        this.queryParam.timeEnd = dateString[1]
       }
     }
   }

@@ -1,5 +1,7 @@
 import request from '@/utils/request'
 
+const BASE_URL = 'http://127.0.0.1:8080'
+
 const api = {
   user: '/user',
   role: '/role',
@@ -7,16 +9,17 @@ const api = {
   permission: '/permission',
   permissionNoPager: '/permission/no-pager',
   orgTree: '/org/tree',
-  studentFind: 'http://127.0.0.1:8080/student/find',
-  studentCreate: 'http://127.0.0.1:8080/student/create',
-  courseOrderFind: 'http://127.0.0.1:8080/course_order/find',
-  courseOrderCreate: 'http://127.0.0.1:8080/course_order/create',
-  lessonFind: 'http://127.0.0.1:8080/lesson/find',
-  lessonCreate: 'http://127.0.0.1:8080/lesson/create',
-  classFind: 'http://127.0.0.1:8080/class/find',
-  classCreate: 'http://127.0.0.1:8080/class/create',
-  getAllClass: 'http://127.0.0.1:8080/class/getAll'
-
+  studentFind: '/student/find',
+  studentCreate: '/student/create',
+  courseOrderFind: '/course_order/find',
+  courseOrderCreate: '/course_order/create',
+  lessonFind: '/lesson/find',
+  lessonCreate: '/lesson/create',
+  classFind: '/class/find',
+  classCreate: '/class/create',
+  getAllClass: '/class/getAll',
+  getAllCourseware: '/courseware/getAll',
+  getAllSubject: '/subject/getAll'
 }
 
 export default api
@@ -81,7 +84,7 @@ export function saveSub (sub) {
 
 export function getStudentList (parameter) {
   return request({
-    url: api.studentFind,
+    url: BASE_URL + api.studentFind,
     method: 'get',
     params: parameter
   })
@@ -89,7 +92,7 @@ export function getStudentList (parameter) {
 
 export function getCourseOrderList (parameter) {
   return request({
-    url: api.courseOrderFind,
+    url: BASE_URL + api.courseOrderFind,
     method: 'get',
     params: parameter
   })
@@ -97,7 +100,7 @@ export function getCourseOrderList (parameter) {
 
 export function getLessonList (parameter) {
   return request({
-    url: api.lessonFind,
+    url: BASE_URL + api.lessonFind,
     method: 'get',
     params: parameter
   })
@@ -105,7 +108,7 @@ export function getLessonList (parameter) {
 
 export function getClassList (parameter) {
   return request({
-    url: api.classFind,
+    url: BASE_URL + api.classFind,
     method: 'get',
     params: parameter
   })
@@ -113,7 +116,23 @@ export function getClassList (parameter) {
 
 export function getAllClass (parameter) {
   return request({
-    url: api.getAllClass,
+    url: BASE_URL + api.getAllClass,
+    method: 'get',
+    params: parameter
+  })
+}
+
+export function getAllCourseware (parameter) {
+  return request({
+    url: BASE_URL + api.getAllCourseware,
+    method: 'get',
+    params: parameter
+  })
+}
+
+export function getAllSubject (parameter) {
+  return request({
+    url: BASE_URL + api.getAllSubject,
     method: 'get',
     params: parameter
   })
@@ -122,7 +141,7 @@ export function getAllClass (parameter) {
 export function createStudent (parameter) {
   console.log('param: ', parameter)
   return request({
-    url: api.studentCreate,
+    url: BASE_URL + api.studentCreate,
     method: 'post',
     params: parameter
   })
@@ -131,7 +150,7 @@ export function createStudent (parameter) {
 export function createCourseOrder (parameter) {
   console.log('param: ', parameter)
   return request({
-    url: api.courseOrderCreate,
+    url: BASE_URL + api.courseOrderCreate,
     method: 'post',
     params: parameter
   })
@@ -140,7 +159,7 @@ export function createCourseOrder (parameter) {
 export function createLesson (parameter) {
   console.log('param: ', parameter)
   return request({
-    url: api.lessonCreate,
+    url: BASE_URL + api.lessonCreate,
     method: 'post',
     params: parameter
   })
@@ -149,7 +168,7 @@ export function createLesson (parameter) {
 export function createClass (parameter) {
   console.log('param: ', parameter)
   return request({
-    url: api.classCreate,
+    url: BASE_URL + api.classCreate,
     method: 'post',
     params: parameter
   })

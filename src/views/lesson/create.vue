@@ -57,9 +57,9 @@
           :wrapperCol="{lg: {span: 5}, sm: {span: 17} }"
           :required="false">
           <a-select placeholder="请选择课件" v-decorator="[ 'coursewareId', {rules: [{ required: true, message: '请选择课件'}]} ]">
-            <a-select-option value="1">月饼</a-select-option>
-            <a-select-option value="2">西瓜</a-select-option>
-            <a-select-option value="3">葡萄</a-select-option>
+            <a-select-option v-for="d in coursewares" :key="d.id">
+              {{ d.coursewareName }}
+            </a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item
@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import { createLesson, getAllClass } from '@/api/manage'
+import { createLesson, getAllClass, getAllCourseware } from '@/api/manage'
 import moment from 'moment'
 
   export default {
@@ -94,12 +94,28 @@ import moment from 'moment'
   data () {
     return {
       options: [],
+      coursewares: [],
       selectedClassId: 0,
       form: this.$form.createForm(this)
     }
   },
   created () {
-    this.getAll()
+    getAllClass()
+      .then(res => {
+        console.log('loadData resp:', res)
+        if (res.msg === 'ok') {
+          this.options = res.data
+          console.log('options:', this.options)
+        }
+      })
+    getAllCourseware()
+      .then(res => {
+        console.log('loadData resp:', res)
+        if (res.msg === 'ok') {
+          this.coursewares = res.data
+          console.log('courewares:', this.coursewares)
+        }
+      })
   },
     methods: {
     // handler
@@ -120,16 +136,6 @@ import moment from 'moment'
             })
         }
       })
-    },
-    getAll () {
-      getAllClass()
-        .then(res => {
-          console.log('loadData resp:', res)
-          if (res.msg === 'ok') {
-            this.options = res.data
-            console.log('options:', this.options)
-          }
-        })
     },
     onChange (value) {
       this.selectedClassId = value[2]

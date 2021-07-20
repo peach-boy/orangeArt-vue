@@ -5,7 +5,7 @@
         <a-form-item
           label="星期"
           :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-          :wrapperCol="{lg: {span: 5}, sm: {span: 17} }"
+          :wrapperCol="{lg: {span: 4}, sm: {span: 17} }"
           :required="false">
           <a-select placeholder="请选择星期" v-decorator="[ 'weekDay', {rules: [{ required: true, message: '请选择星期'}]} ]">
             <a-select-option value="1">周一</a-select-option>
@@ -22,14 +22,14 @@
           :labelCol="{lg: {span: 7}, sm: {span: 7}}"
           :wrapperCol="{lg: {span: 5}, sm: {span: 17} }"
           :required="false">
-          <a-time-picker :default-open-value="moment('00:00:00', 'HH:mm:ss')" @change="getBeginTime"/>
+          <a-time-picker format="HH:mm" :default-open-value="moment('00:00', 'HH:mm')" @change="getBeginTime"/>
         </a-form-item>
         <a-form-item
           :label="$t('结束时间')"
           :labelCol="{lg: {span: 7}, sm: {span: 7}}"
           :wrapperCol="{lg: {span: 5}, sm: {span: 17} }"
           :required="false">
-          <a-time-picker :default-open-value="moment('00:00:00', 'HH:mm:ss')" @change="getEndTime"/>
+          <a-time-picker format="HH:mm" :default-open-value="moment('00:00', 'HH:mm')" @change="getEndTime"/>
         </a-form-item>
         <a-form-item
           :label="$t('科目')"
@@ -37,8 +37,9 @@
           :wrapperCol="{lg: {span: 10}, sm: {span: 17} }"
           :required="false">
           <a-radio-group v-decorator="['subjectId', { initialValue: 1 }]">
-            <a-radio :value="1">{{ $t('素描') }}</a-radio>
-            <a-radio :value="2">{{ $t('线描') }}</a-radio>
+            <a-radio v-for="d in subjects" :key="d.id" :value="d.id">
+              {{ d.subjectName }}
+            </a-radio>
           </a-radio-group>
         </a-form-item>
         <a-form-item
@@ -76,7 +77,7 @@
 </template>
 
 <script>
-import { createClass } from '@/api/manage'
+import { createClass, getAllSubject } from '@/api/manage'
 import moment from 'moment'
 
   export default {
@@ -86,10 +87,21 @@ import moment from 'moment'
       moment,
       form: this.$form.createForm(this),
       beginTime: '',
-      endTime: ''
+      endTime: '',
+      subjects: []
     }
   },
-  methods: {
+  created () {
+    getAllSubject()
+      .then(res => {
+        console.log('loadData resp:', res)
+        if (res.msg === 'ok') {
+          this.subjects = res.data
+          console.log('courewares:', this.subjects)
+        }
+      })
+  },
+    methods: {
     getBeginTime (time, timeString) {
       this.beginTime = timeString
     },
