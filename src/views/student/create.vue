@@ -46,7 +46,7 @@
               {rules: [{ required: true, message: $t('请输入家庭住址') }]}
             ]"
             name="name"
-             />
+          />
         </a-form-item>
         <a-form-item
           :label="$t('手机号')"
@@ -112,7 +112,7 @@ import { createStudent } from '@/api/manage'
 import moment from 'moment'
 
   export default {
-  name: 'create',
+  name: 'Create',
   data () {
     return {
       form: this.$form.createForm(this)
@@ -124,16 +124,26 @@ import moment from 'moment'
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values)
-          values.birthYear = moment(values.birthYear).format('YYYY-MM-DD')
-          console.log('birth', values.birthYear)
-          createStudent(values)
-            .then(res => {
-              console.log('loadData resp:', res)
-              if (res.data === true) {
-                this.$router.push('/student/list')
-              }
-            })
+          this.$confirm({
+            title: '确认?',
+            content: h => <div style="color:red;">Some descriptions</div>,
+            onOk () {
+              values.birthYear = moment(values.birthYear).format('YYYY-MM-DD')
+              createStudent(values)
+                .then(res => {
+                  console.log('loadData resp:', res)
+                  if (res.data === true) {
+                    this.$router.push('/student/list')
+                  } else {
+                    this.onCancel()
+                  }
+                })
+            },
+            onCancel () {
+              console.log('Cancel')
+            },
+            class: 'test'
+          })
         }
       })
     }

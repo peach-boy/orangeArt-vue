@@ -30,7 +30,7 @@
       </div>
 
       <div class="table-operator">
-        <a-button type="primary" icon="plus" @click="handleAdd">新建</a-button>
+        <a-button type="primary" icon="plus" @click="toAdd">新建</a-button>
         <a-dropdown v-action:edit v-if="selectedRowKeys.length > 0">
           <a-menu slot="overlay">
             <a-menu-item key="1"><a-icon type="delete" />删除</a-menu-item>
@@ -51,8 +51,7 @@
         :data="loadData"
         :alert="true"
         :rowSelection="rowSelection"
-        showPagination="auto"
-      >
+        showPagination="auto" >
         <span slot="serial" slot-scope="text, record, index">
           {{ index + 1 }}
         </span>
@@ -65,9 +64,9 @@
 
         <span slot="action" slot-scope="text, record">
           <template>
-            <a @click="handleEdit(record)">编辑</a>
+            <a @click="toEdit(record)">编辑</a>
             <a-divider type="vertical" />
-            <a @click="handleSub(record)">锁定</a>
+            <a @click="toDetail(record)">详情</a>
           </template>
         </span>
       </s-table>
@@ -107,6 +106,12 @@
       title: '状态',
       dataIndex: 'status',
       scopedSlots: { customRender: 'status' }
+    },
+    {
+      title: '操作',
+      dataIndex: 'action',
+      width: '150px',
+      scopedSlots: { customRender: 'action' }
     }
   ]
 
@@ -174,13 +179,6 @@
       }
     },
     methods: {
-      handleAdd () {
-        this.$router.push('/student/create')
-      },
-      handleEdit (record) {
-        this.visible = true
-        this.mdl = { ...record }
-      },
       handleOk () {
         const form = this.$refs.createModal.form
         this.confirmLoading = true
@@ -225,18 +223,21 @@
           }
         })
       },
+      toAdd () {
+        this.$router.push('/student/create')
+      },
+      toEdit (record) {
+        this.visible = true
+        this.mdl = { ...record }
+      },
+      toDetail (record) {
+        this.$router.push('/student/detail?id='${record.id)
+      },
       handleCancel () {
         this.visible = false
 
         const form = this.$refs.createModal.form
         form.resetFields() // 清理表单数据（可不做）
-      },
-      handleSub (record) {
-        if (record.status !== 0) {
-          this.$message.info(`${record.no} 订阅成功`)
-        } else {
-          this.$message.error(`${record.no} 订阅失败，规则已关闭`)
-        }
       },
       onSelectChange (selectedRowKeys, selectedRows) {
         this.selectedRowKeys = selectedRowKeys

@@ -55,6 +55,13 @@ export const asyncRouterMap = [
             name: 'create',
             component: () => import('@/views/student/create'),
             meta: { title: 'menu.student.create', keepAlive: true }
+          },
+          {
+            path: '/student/detail',
+            name: 'detail',
+            component: () => import('@/views/student/detail'),
+            meta: { title: 'menu.student.detail', keepAlive: true },
+            hidden: true
           }
         ]
       },
